@@ -1,0 +1,3 @@
+Flask
+mysql-connector-python==8.0.28
+#Especificamos la version de mysql para prevenir problemas de compatibilidades

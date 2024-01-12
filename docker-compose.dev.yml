@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  python-flask-app-container:
+  #Especificamos que lo construya con el dockerfile que hemos creado y que se encuentra en la carpeta actual
+    build:
+      context: .  
+      dockerfile: Dockerfile 
+    image: python:3.8
+    container_name: python-flask-app-container
+    
+    ports:
+    #Puerto del host(nuestro ordenador):Puerto del docker
+      - 5001:5000
+    volumes:
+    #Le cede a la direccion /app(dentro del docker) todos los ficheros de la carpeta actual
+      - ./:/app
+    networks:
+    #Creamos una red que conecta a ambos contenedores
+      - mysql-python-network
+  
+  mysql-flask-app-container:
+    image: mysql 
+    container_name: mysql-flask-app-container
+    ports:
+      - 3309:3306
+    environment:
+    #Usamos ENV para definir costantes
+      - MYSQL_ROOT_PASSWORD=1234
+    volumes:
+    #Rutas predefinidas para mysql
+      - mysql-python-app-volume:/var/lib/mysql
+      - mysql-python-app-volume-config:/etc/mysql
+    networks:
+    #Misma red que arriba
+      - mysql-python-network
+
+networks:
+  mysql-python-network:
+    name: mysql-python-network
+volumes:
+  mysql-python-app-volume:
+  mysql-python-app-volume-config:
