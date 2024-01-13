@@ -13,7 +13,7 @@ Para comprobarlo, podremos hacer:
 docker ps
 
 Si la columna 'State' indica 'up' podremos proseguir, en caso contrario, es recomendable ver errores con 'docker logs nombre_contenedor'
-Por último, para comprobar el correcto funcionamiento de la app, iniciaremos la base de datos con:
+A continuación, para comprobar el correcto funcionamiento de la app, iniciaremos la base de datos con:
 
 curl localhost:5001/initdb 
 
@@ -26,5 +26,11 @@ Y, para finalizar, comprobaremos la conectividad con la tabla ejecutando:
 curl localhost:5001/universities
 
 De este modo, la App ejecutará la operacion "SELECT * FROM Universities",y transformará lo devuelto mediante una representación JSON a una respuesta http,
-pero en nuestro caso, al tratarse de una tabla vacía nos devolvera una lista vacía.
+pero en nuestro caso, al no haber hecho aún los inserts, nos devolverá una lista vacía.
+
+Para ello, 
+
+curl localhost:5001/insert
+
+Y finalmente,volviendo a ejecutar la ruta /universities veremos que ,en efecto, nos devolverá una lista con la información sobre el MIT y la Boston College.
 
