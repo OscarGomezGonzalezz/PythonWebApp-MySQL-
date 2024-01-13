@@ -64,11 +64,6 @@ def get_products():
     database.close()
     return jsonify(json_data)
 
-# Ruta para insertar datos en la tabla Universities (usando GET)
-from flask import request
-
-# ...
-
 # Ruta para insertar datos automáticamente en la tabla Universities
 @app.route('/insert')
 def auto_insert_university():
