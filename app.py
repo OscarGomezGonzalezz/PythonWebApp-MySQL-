@@ -1,5 +1,5 @@
 import mysql.connector
-from flask import Flask
+from flask import Flask, jsonify, request
 import json
 
 app = Flask(__name__)
@@ -34,13 +34,13 @@ def init_tables():
     cursor = database.cursor()
 
     cursor.execute("DROP TABLE IF EXISTS Universities")
-    cursor.execute("""CREATE TABLE Universities """
-    """(UniversityId INT PRIMARY KEY AUTO_INCREMENT,"""
+    cursor.execute("""CREATE TABLE Universities"""
+    """(universityId INT PRIMARY KEY AUTO_INCREMENT,"""
     """name VARCHAR(255),""" 
-    """Ranking VARCHAR(255),"""
-    """Country VARCHAR(255))""")
+    """ranking INT)""")
     cursor.close()    
     return "Tables have been initialized"
+
 
 #Nos devuelve la tabla Universities creada anteriormente
 @app.route('/universities')
@@ -61,10 +61,48 @@ def get_products():
     for u in universities:
         json_data.append(dict(zip(nombre_columnas,u)))
     cursor.close()
-    return json.dumps(json_data)
+    database.close()
+    return jsonify(json_data)
+
+# Ruta para insertar datos en la tabla Universities (usando GET)
+from flask import request
+
+# ...
+
+# Ruta para insertar datos automáticamente en la tabla Universities
+@app.route('/insert')
+def auto_insert_university():
+
+    database = mysql.connector.connect(
+        host="mysql-flask-app-container",
+        user="root",
+        password="1234",
+        database="DBUniversities"
+    )
+
+    cursor = database.cursor()
+
+    #Le pasamos los datos a insertar
+    example_data = [
+        ('MIT', 1),
+        ('Boston College', 46),
+    ]
+
+    insert_query = "INSERT INTO Universities (name, ranking) VALUES (%s, %s)"
+    cursor.executemany(insert_query, example_data)
+
+    # Confirma la transacción
+    database.commit()
+
+    cursor.close()
+    database.close()
+
+    return 'Universities have been automatically inserted'
+
+
 
 """
-INSERT INTO Universities()
-Intentar hacerlo con scraping de qsTopUniversities.com
 
-"""    
+Intentar hacer más adelante inserts con scraping de qsTopUniversities.com
+
+"""     
