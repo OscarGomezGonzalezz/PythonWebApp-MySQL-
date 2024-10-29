@@ -2,7 +2,9 @@ El proyecto consiste en una página web implementada con Flask, un framework de 
 a la cual podremos acceder como veremos posteriormente. Todo esto, siendo implementado con docker-compose, facilitando así el despliegue y la gestión,
 tanto de contenedores como de las redes a las que pertenecen estos mismos, a la cual en nuestro caso hemos integrado ambos conectores para su mutua interacción .
 
-Para ejecutarlo, necesitaremos tener en un mismo directorio todos los archivos presentes en el repositorio. Una vez los tengamos implementados(están todos explicados
+En primer lugar iniciamos el server de python desde docker desktop o desde la terminal
+
+Para ejecutar el servidor de mysql, necesitaremos tener en un mismo directorio todos los archivos presentes en el repositorio. Una vez los tengamos implementados(están todos explicados
 mediante anotaciones), ejecutaremos:
 
 docker-compose -f ./docker-compose.dev.yml up -d --build 
